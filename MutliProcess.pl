@@ -1,18 +1,22 @@
 #!/usr/bin/perl
 
 use strict;
-use JSON;
 use threads;
 use script::ParserEduCSVData;
 
-my $jsonparser = new JSON;
-open(IN,$ARGV[0])||die("The file can't find!\n");
+if(scalar(@ARGV) != 2)
+{
+	print "Usage : $0 input threadnum\n";
+	exit;
+}
 
 &Main();
 
 sub Main
 {
 	my $threadnum = $ARGV[1];
+
+	open(IN,$ARGV[0])||die("The file can't find!\n");
 	my @tasks = <IN>;
 	my $group = div(\@tasks,$threadnum);
 
