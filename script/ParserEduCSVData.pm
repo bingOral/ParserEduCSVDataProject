@@ -3,6 +3,7 @@
 use strict;
 package EduTool;
 use JSON;
+use Try::Tiny;
 
 sub dowork
 {
@@ -38,25 +39,32 @@ sub parser
 				my @arr = split(/\|/,$row_in);
 				if(scalar(@arr) == 21 and $arr[14] =~ /{.*}/)
 				{
-					my $json = $jsonparser->decode($arr[14]);
+					try
+					{
+						my $json = $jsonparser->decode($arr[14]);
 				
-					my $area;
-					$area = 'sh' if $arr[6] =~ /sh/;
-					$area = 'gz' if $arr[6] =~ /gz/;
-					$area = 'bj' if $arr[6] =~ /bj/;
+						my $area;
+						$area = 'sh' if $arr[6] =~ /sh/;
+						$area = 'gz' if $arr[6] =~ /gz/;
+						$area = 'bj' if $arr[6] =~ /bj/;
 				
-					my $score = $json->{lines}->[0]->{score};
-					my $sample = $json->{lines}->[0]->{sample};
-					my $length = $json->{lines}->[0]->{end};
-					my $url = "http://edu".$area.".hivoice.cn:9088/WebAudio-1.0-SNAPSHOT/audio/play/".$arr[2]."/".$arr[3]."/".$area;
+						my $score = $json->{lines}->[0]->{score};
+						my $sample = $json->{lines}->[0]->{sample};
+						my $length = $json->{lines}->[0]->{end};
+						my $url = "http://edu".$area.".hivoice.cn:9088/WebAudio-1.0-SNAPSHOT/audio/play/".$arr[2]."/".$arr[3]."/".$area;
 				
-					$res->{sample} = $sample;
-					$res->{length} = $length;
-					$res->{url} = $url;
-					$res->{score} = $score;
+						$res->{sample} = $sample;
+						$res->{length} = $length;
+						$res->{url} = $url;
+						$res->{score} = $score;
 
-					print OUT $jsonparser->encode($res)."\n";
-					#print $jsonparser->encode($res)."\n";
+						print OUT $jsonparser->encode($res)."\n";
+						#print $jsonparser->encode($res)."\n";
+					}
+					catch
+					{
+						print $row_in."\n";
+					}
 				}
 			}
 		}	
