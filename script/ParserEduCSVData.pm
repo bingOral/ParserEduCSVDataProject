@@ -62,7 +62,7 @@ sub parser
 		}	
 	}
 
-	delete($csvfile);
+	unlink($csvfile);
 }
 
 sub replace
@@ -94,12 +94,6 @@ sub uncompress
 	{
 		return;
 	}
-}
-
-sub delete
-{
-	my $file = shift;
-	unlink($file);
 }
 
 1;
