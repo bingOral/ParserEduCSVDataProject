@@ -2,7 +2,7 @@
 
 ## 1.多并发解析OralEdu日志文件
 
-perl MutliProcess.pl input threadnum 
+Usage : perl MutliProcess.pl input threadnum 
 
 引入：
    a.script::ParserEduCSVData;<br>
@@ -19,7 +19,7 @@ perl MutliProcess.pl input threadnum
 
 ## 2.多并发抓取opus/mp3文件
 
-perl MutliProcess.pl input threadnum 
+Usage : perl MutliProcess.pl input threadnum 
 
 引入：
    a.script::DownloadEduOpusData;
