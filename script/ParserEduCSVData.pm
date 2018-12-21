@@ -53,7 +53,7 @@ sub parser
 					$res->{sample} = $sample;
 					$res->{length} = $length;
 					$res->{url} = $url;
-					$res->{score} = $url;
+					$res->{score} = $score;
 
 					print OUT $jsonparser->encode($res)."\n";
 					#print $jsonparser->encode($res)."\n";
@@ -86,7 +86,7 @@ sub uncompress
 	if($file =~ /(.*\/.*).gz$/)
 	{
 		$csvfile = $1;
-		`tar -zxvf $file` if -e $csvfile;
+		`tar -zxvf $file` unless -e $csvfile;
 		open(IN,$csvfile)||die("The file can't find!\n");
 		return \*IN,$csvfile;
 	}
