@@ -86,7 +86,7 @@ sub uncompress
 	if($file =~ /(.*\/.*).gz$/)
 	{
 		$csvfile = $1;
-		`tar -zxvf $file` unless -e $csvfile;
+		`gzip -d -f $file` unless -e $csvfile;
 		open(IN,$csvfile)||die("The file can't find!\n");
 		return \*IN,$csvfile;
 	}
