@@ -7,6 +7,7 @@ perl MutliProcess.pl input threadnum
 引入：
    a.script::ParserEduCSVData;
    
+   
 输入：
    a.input : 压缩gz包的列表；
    b.threadnum : 并发线程数；
