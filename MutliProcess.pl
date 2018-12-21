@@ -2,8 +2,8 @@
 
 use strict;
 use threads;
-use script::ParserEduCSVData;
-#use script::DownloadEduOpusData;
+#use script::ParserEduCSVData;
+use script::DownloadEduOpusData;
 
 if(scalar(@ARGV) != 2)
 {

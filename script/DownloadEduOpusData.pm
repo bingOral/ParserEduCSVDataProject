@@ -5,10 +5,17 @@ package EduTool;
 
 use warnings;
 use LWP::UserAgent;
+use JSON;
+use POSIX qw(strftime);
 
 sub dowork
 {
-	my $url = shift;
+	my $param = shift;
+	my $jsonparser = new JSON;
+
+	my $json = $jsonparser->decode($param);
+	my $url = $json->{url};
+	my $text = $json->{sample};
 
 	my $filename = create($url);
 	open(OUT,">$filename")||die("The file can't create!\n");
@@ -20,6 +27,7 @@ sub dowork
 	if($response->is_success)
 	{
 	    print OUT $response->decoded_content;
+	    print $filename."|".$text."\n";
 	}
 	else
 	{
@@ -33,13 +41,16 @@ sub create
 
 	my @arr = split(/\//,$url);
 
-	my $filename = $arr[8];
-	my ($sec, $min, $hour, $day, $month, $year) = (localtime(substr($arr[7],0,10)))[0,1,2,3,4,5,6];
-	my $dir = '/backup/edu-data/'.$year.'-'.$month.'-'.$day.'_'.$hour;
-	
-	mkdir($dir) unless (-e $dir);
+	my $filename = $arr[6];
+	my $unixtime = substr($arr[7],0,10);
 
-	return $dir.'/'.$filename.'.opus';
+	my $str = "date -d \@$unixtime +\"%Y-%m-%d_%H\"";
+	my $res = qx($str);	
+	$res =~ s/[\r\n]//g;
+	
+	`mkdir -p '/backup/edu-data/'$res`;
+
+	return '/backup/edu-data/'.$res.'/'.$filename.'.opus';
 }
 
 1;
