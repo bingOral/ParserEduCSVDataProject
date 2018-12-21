@@ -26,8 +26,8 @@ sub dowork
 	my $response = $ua->get($url);
 	if($response->is_success)
 	{
-	    print OUT $response->decoded_content;
-	    print $filename."|".$text."\n";
+		print $filename."|".$text."\n";
+		print OUT $response->decoded_content;
 	}
 	else
 	{

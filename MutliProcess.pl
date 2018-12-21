@@ -56,7 +56,7 @@ sub dowork
 	foreach my $row (@$param)
 	{
 		chomp($row);
-		print "Processing ".$row." now!\n";
+		#print "Processing ".$row." now!\n";
 		EduTool::dowork($row);
 	}
 }
