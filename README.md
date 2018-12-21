@@ -1,6 +1,6 @@
 # ParserEduCSVDataProject
 
-## 1.多并发解析教育日志文件
+## 1.多并发解析OralEdu日志文件
 
 perl MutliProcess.pl input threadnum 
 
