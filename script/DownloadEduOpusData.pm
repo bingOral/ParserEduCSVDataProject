@@ -86,7 +86,7 @@ sub insertElastic
 			text    => $sample,
 			server  => $url,
 			length  => $length,	
-		     reference  => $score
+		     	score	=> $score
 		}
 	);
 }
