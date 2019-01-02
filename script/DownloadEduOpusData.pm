@@ -4,6 +4,7 @@ use strict;
 package EduTool;
 
 use JSON;
+use Try::Tiny;
 use LWP::UserAgent;
 use POSIX qw(strftime);
 use Search::Elasticsearch;
@@ -18,22 +19,32 @@ sub dowork
 	while(my $row = <IN>)
 	{
 		chomp($row);
-		my $json = $jsonparser->decode($row);
-		my $url = $json->{url};
-		my $text = $json->{sample};
-		my $score = $json->{score};
-		my $length = $json->{length};
-
-		if($score >= 95)
+		try
 		{
-			my $filename = create($url);
-			my $code = getstore($url,$filename);
-			if($code == 200)
+			if($row =~ /{.*}/)
 			{
-				insertElastic($es,$filename,$url,$text,$length,$score);
+				my $json = $jsonparser->decode($row);
+				my $url = $json->{url};
+				my $text = $json->{sample};
+				my $score = $json->{score};
+				my $length = $json->{length};
+	
+				if($score >= 95)
+				{
+					my $filename = create($url);
+					my $code = getstore($url,$filename);
+					if($code == 200)
+					{
+						insertElastic($es,$filename,$url,$text,$length,$score);
+					}
+					#die;
+				}
 			}
-			#die;
 		}
+		catch
+		{
+			print "Process ".$row." error!\n";
+		};
 	}
 }
 
